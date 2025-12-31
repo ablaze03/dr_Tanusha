@@ -250,18 +250,17 @@
             position: absolute;
             color: #2d8659;
             font-size: 2em;
-            animation: floatTop 3s ease-in-out infinite;
+            animation: fall linear infinite;
             opacity: 0.6;
             text-shadow: 0 0 10px rgba(45, 134, 89, 0.3);
-            top: 20px;
         }
         
-        @keyframes floatTop {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
+        @keyframes fall {
+            from {
+                transform: translateY(-100px) rotate(0deg);
             }
-            50% {
-                transform: translateY(-10px) rotate(5deg);
+            to {
+                transform: translateY(100vh) rotate(360deg);
             }
         }
         
@@ -317,12 +316,12 @@
     <div class="fireworks-container" id="fireworks"></div>
     <div class="card">
         <div class="decorative-elements">
-            <div class="buddhist-symbol" style="left: 8%; animation-delay: 0s;">🪷</div>
-            <div class="buddhist-symbol" style="left: 22%; animation-delay: 0.5s;">☸️</div>
-            <div class="buddhist-symbol" style="left: 38%; animation-delay: 1s;">🕉️</div>
-            <div class="buddhist-symbol" style="left: 54%; animation-delay: 0.3s;">🪔</div>
-            <div class="buddhist-symbol" style="left: 70%; animation-delay: 0.8s;">🧘</div>
-            <div class="buddhist-symbol" style="left: 86%; animation-delay: 1.2s;">✨</div>
+            <div class="buddhist-symbol" style="left: 10%; animation-duration: 8s;">🪷</div>
+            <div class="buddhist-symbol" style="left: 25%; animation-duration: 10s; animation-delay: 1s;">☸️</div>
+            <div class="buddhist-symbol" style="left: 40%; animation-duration: 9s; animation-delay: 2s;">🕉️</div>
+            <div class="buddhist-symbol" style="left: 55%; animation-duration: 11s; animation-delay: 0.5s;">🪔</div>
+            <div class="buddhist-symbol" style="left: 70%; animation-duration: 8.5s; animation-delay: 1.5s;">🧘</div>
+            <div class="buddhist-symbol" style="left: 85%; animation-duration: 9.5s; animation-delay: 2.5s;">✨</div>
         </div>
         
         <div class="header">
@@ -455,5 +454,4 @@
     </script>
 </body>
 </html>
-
 
