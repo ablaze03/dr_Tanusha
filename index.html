@@ -145,9 +145,41 @@
                 box-shadow: none;
             }
         }
+        
+        /* Стили для салютов */
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="fireworks-container" id="fireworks"></div>
     <div class="card">
         <div class="decorative-elements">
             <div class="snowflake" style="left: 10%; animation-duration: 3s;">❄</div>
@@ -188,6 +220,95 @@
             С любовью и самыми теплыми пожеланиями! 💕
         </div>
     </div>
+    
+    <script>
+        // Функция для создания салюта
+        function createFirework(x, y) {
+            const container = document.getElementById('fireworks');
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#95E1D3', '#F38181', '#AA96DA', '#FCBAD3', '#FFD93D'];
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                
+                // Случайный цвет
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = color;
+                particle.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+                
+                // Начальная позиция
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                // Случайное направление
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 100 + Math.random() * 100;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                // Анимация движения
+                particle.style.setProperty('--vx', vx + 'px');
+                particle.style.setProperty('--vy', vy + 'px');
+                
+                particle.style.animation = `fireworkMove 1s ease-out forwards`;
+                particle.style.animationDelay = Math.random() * 0.1 + 's';
+                
+                container.appendChild(particle);
+                
+                // Удаление после анимации
+                setTimeout(() => {
+                    particle.remove();
+                }, 1100);
+            }
+        }
+        
+        // Добавляем анимацию движения для частиц
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fireworkMove {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--vx), var(--vy)) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Функция для запуска салюта в случайной позиции
+        function launchFirework() {
+            const x = Math.random() * window.innerWidth;
+            const y = 100 + Math.random() * (window.innerHeight * 0.4); // Верхняя часть экрана
+            createFirework(x, y);
+        }
+        
+        // Запускаем салюты 3 раза с задержкой
+        let fireworkCount = 0;
+        const maxFireworks = 3;
+        
+        function startFireworks() {
+            if (fireworkCount < maxFireworks) {
+                launchFirework();
+                fireworkCount++;
+                
+                // Запускаем следующий салют через 1.5 секунды
+                setTimeout(() => {
+                    startFireworks();
+                }, 1500);
+            }
+        }
+        
+        // Запускаем салюты при загрузке страницы
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                startFireworks();
+            }, 500); // Небольшая задержка для загрузки страницы
+        });
+    </script>
 </body>
 </html>
 
